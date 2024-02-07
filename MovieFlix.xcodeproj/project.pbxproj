@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EB5A1C142B73C39B00AB05A2 /* GeneriTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5A1C132B73C39B00AB05A2 /* GeneriTableViewCell.swift */; };
+		EB5A1C162B74137C00AB05A2 /* MoviesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5A1C152B74137C00AB05A2 /* MoviesListView.swift */; };
+		EB5A1C182B7413AC00AB05A2 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5A1C172B7413AC00AB05A2 /* SearchView.swift */; };
+		EB5A1C1A2B7413DF00AB05A2 /* MovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5A1C192B7413DF00AB05A2 /* MovieView.swift */; };
 		EB6DF18D2B72F1C500EFF0BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6DF18C2B72F1C500EFF0BB /* AppDelegate.swift */; };
 		EB6DF18F2B72F1C500EFF0BB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6DF18E2B72F1C500EFF0BB /* SceneDelegate.swift */; };
 		EB6DF1912B72F1C500EFF0BB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6DF1902B72F1C500EFF0BB /* ViewController.swift */; };
@@ -15,6 +19,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EB5A1C132B73C39B00AB05A2 /* GeneriTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneriTableViewCell.swift; sourceTree = "<group>"; };
+		EB5A1C152B74137C00AB05A2 /* MoviesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListView.swift; sourceTree = "<group>"; };
+		EB5A1C172B7413AC00AB05A2 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		EB5A1C192B7413DF00AB05A2 /* MovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieView.swift; sourceTree = "<group>"; };
 		EB6DF1892B72F1C500EFF0BB /* MovieFlix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieFlix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB6DF18C2B72F1C500EFF0BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EB6DF18E2B72F1C500EFF0BB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -54,14 +62,42 @@
 		EB6DF18B2B72F1C500EFF0BB /* MovieFlix */ = {
 			isa = PBXGroup;
 			children = (
+				EB6DF1A22B73B55A00EFF0BB /* Controllers */,
 				EB6DF18C2B72F1C500EFF0BB /* AppDelegate.swift */,
 				EB6DF18E2B72F1C500EFF0BB /* SceneDelegate.swift */,
 				EB6DF1902B72F1C500EFF0BB /* ViewController.swift */,
 				EB6DF1952B72F1C700EFF0BB /* Assets.xcassets */,
 				EB6DF19A2B72F1C700EFF0BB /* Info.plist */,
-				EB6DF1A02B738FFB00EFF0BB /* MoviesListViewController.swift */,
 			);
 			path = MovieFlix;
+			sourceTree = "<group>";
+		};
+		EB6DF1A22B73B55A00EFF0BB /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				EB6DF1A32B73B56A00EFF0BB /* MoviesList */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		EB6DF1A32B73B56A00EFF0BB /* MoviesList */ = {
+			isa = PBXGroup;
+			children = (
+				EB6DF1A42B73B57A00EFF0BB /* Components */,
+				EB6DF1A02B738FFB00EFF0BB /* MoviesListViewController.swift */,
+			);
+			path = MoviesList;
+			sourceTree = "<group>";
+		};
+		EB6DF1A42B73B57A00EFF0BB /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				EB5A1C132B73C39B00AB05A2 /* GeneriTableViewCell.swift */,
+				EB5A1C152B74137C00AB05A2 /* MoviesListView.swift */,
+				EB5A1C172B7413AC00AB05A2 /* SearchView.swift */,
+				EB5A1C192B7413DF00AB05A2 /* MovieView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -136,6 +172,10 @@
 				EB6DF1912B72F1C500EFF0BB /* ViewController.swift in Sources */,
 				EB6DF18D2B72F1C500EFF0BB /* AppDelegate.swift in Sources */,
 				EB6DF18F2B72F1C500EFF0BB /* SceneDelegate.swift in Sources */,
+				EB5A1C182B7413AC00AB05A2 /* SearchView.swift in Sources */,
+				EB5A1C162B74137C00AB05A2 /* MoviesListView.swift in Sources */,
+				EB5A1C1A2B7413DF00AB05A2 /* MovieView.swift in Sources */,
+				EB5A1C142B73C39B00AB05A2 /* GeneriTableViewCell.swift in Sources */,
 				EB6DF1A12B738FFB00EFF0BB /* MoviesListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
