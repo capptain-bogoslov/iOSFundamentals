@@ -26,26 +26,37 @@ class MoviesListViewController: UIViewController {
         
         self.contentView.tableView.delegate = self
         self.contentView.tableView.dataSource = self
+        
+        setUpNavigationBar()
+    }
+    
+    func setUpNavigationBar() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .white
+        appearance.shadowColor = .clear
+        appearance.shadowImage = UIImage()
+        navigationController?.navigationBar.tintColor = .black
+        UINavigationBar.appearance().tintColor = .black
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        setNeedsStatusBarAppearanceUpdate()
     }
 }
 
 extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 1 : 4
+        return 34
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch (indexPath.section, indexPath.row) {
-        case (0, 0):
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchViewCell", for: indexPath) as? GeneriTableViewCell<SearchView> else { return UITableViewCell() }
-            
-            return cell
-        case (1, _):
+        case (0, _):
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieViewCell", for: indexPath) as? GeneriTableViewCell<MovieView> else { return UITableViewCell() }
             return cell
         default:

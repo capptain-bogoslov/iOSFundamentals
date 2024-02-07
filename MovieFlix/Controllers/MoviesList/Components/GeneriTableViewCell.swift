@@ -28,7 +28,7 @@ class GeneriTableViewCell<T: UIView>: UITableViewCell {
     }
     
     func setUpLayout() {
-        backgroundColor = .clear
+        backgroundColor = .white
         self.contentView.addSubview(view)
         
         NSLayoutConstraint.activate([
