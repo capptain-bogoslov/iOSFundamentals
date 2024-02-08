@@ -34,10 +34,10 @@ struct MovieDetailView: View {
                     //Title-Genre-Favourite
                     HStack {
                         VStack(alignment: .leading) {
-                            Text("Fuck My Life: An eternal journey")
+                            Text("The Light Warrior")
                                 .font(.system(size: 32, weight: .bold))
                             
-                            Text("Genre description")
+                            Text("Action, Adventure")
                                 .font(.system(size: 12, weight: .bold))
                                 .foregroundColor(Color.gray)
                             
@@ -51,19 +51,34 @@ struct MovieDetailView: View {
                         })
                     }
                     
-                    //Date
-                    Text("15 March 2024")
-                        .font(.system(size: 14, weight: .bold))
-                        .foregroundColor(.orange)
-                    
+                    //Date and Rating
+                    VStack(alignment: .leading) {
+                        Text("15 March 2024")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundColor(.orange)
+                        
+                        HStack {
+                            ForEach(0..<5) { _ in
+                                Image(systemName: "star.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.yellow)
+                                    .frame(width: 20, height: 20)
+                            }
+                        }
+                    }
                     
                     DetailSectionView(type: .runtime, description: "2h 28m")
                     
-                    DetailSectionView(type: .description, description: "A lonely man tries to succeed in life only to find himself in a never ending battle between himself and his thoughts")
+                    DetailSectionView(type: .description, description: "A man tries to find a lost treasure, buried deep inside the Amazon joungle")
                     
-                    DetailSectionView(type: .cast, description: "Theologos Batsioulas, Sonia Kougioni, Stefania Dimitriou, Sata")
+                    DetailSectionView(type: .cast, description: "Keeanu Reeves, LeBron James, Cameron Diaz")
                     
-                    DetailSectionView(type: .reviews, description: "Theologos Batsioulas, Sonia Kougioni, Stefania Dimitriou, Sata", reviews: ["Alexandra" : "I had a great laugh. What a loser", "Anna" : "Lol, boring", "Irini" : "Uff that was close"])
+                    DetailSectionView(type: .reviews, description: "", reviews: ["Alexandra" : "I had a great laugh. What a good movie. I wonder how not everybody seen it yet", "Anna" : "Lol, boring. I wanted to sleep", "Irini" : "Not that anything that this is going to happen", "Stefania" : "Best time ever"])
+                        .frame(height: 200)
+                    
+                    DetailSectionView(type: .similarMovies, description: "", similarMovies: ["1984", "1984", "1984", "1984", "1984", "1984"])
+                        .padding(.bottom, 20)
                     
                     Spacer()
                 }
