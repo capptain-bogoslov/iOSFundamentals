@@ -29,6 +29,7 @@ class MoviesListView: UIView {
         let tableView = UITableView(frame: UIScreen.main.bounds)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(GeneriTableViewCell<MovieView>.self, forCellReuseIdentifier: "MovieViewCell")
+        tableView.register(GeneriTableViewCell<SkeletonCell>.self, forCellReuseIdentifier: "SkeletonCell")
         tableView.separatorStyle = .none
         tableView.backgroundView = UIView(frame: tableView.bounds)
         tableView.backgroundView?.backgroundColor = .orange
