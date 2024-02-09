@@ -11,6 +11,8 @@ class MoviesListViewController: UIViewController {
     
     private var contentView = MoviesListView()
     
+    let viewModel: MoviesViewModel = MoviesViewModel(service: MockNetworkService())
+    
     override func loadView() {
         view = contentView
     }
