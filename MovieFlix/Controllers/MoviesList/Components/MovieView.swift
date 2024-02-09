@@ -10,6 +10,8 @@ import UIKit
 
 class MovieView: UIView {
     
+    var favouriteTapped: (() -> Void)?
+    
     private lazy var movieImage: UIImageView = {
        let view = UIImageView()
         view.image = UIImage(named: "demoImage")
@@ -71,6 +73,8 @@ class MovieView: UIView {
         view.image = UIImage(named: "Heart_g")
         view.translatesAutoresizingMaskIntoConstraints = false
         view.contentMode = .scaleAspectFit
+        view.isUserInteractionEnabled = true
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(heartTapped)))
         return view
     }()
     
@@ -98,7 +102,7 @@ class MovieView: UIView {
         movieImage.addSubview(titleLabel)
         movieImage.addSubview(stackView)
         movieImage.addSubview(dateLabel)
-        movieImage.addSubview(heartImage)
+        addSubview(heartImage)
         
         for _ in 1...5 {
             let starImage = UIImageView()
@@ -126,6 +130,8 @@ class MovieView: UIView {
             dateLabel.bottomAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: -16),
             heartImage.trailingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: -16),
             heartImage.bottomAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: -16),
+            heartImage.heightAnchor.constraint(equalToConstant: 30),
+            heartImage.widthAnchor.constraint(equalToConstant: 30),
 
         ])
     }
@@ -146,6 +152,11 @@ class MovieView: UIView {
                 print("Error: \(error) fetching image")
             }
         }
+    }
+    
+    //handle tap in the heart image
+    @objc func heartTapped() {
+        favouriteTapped?()
     }
     
 }

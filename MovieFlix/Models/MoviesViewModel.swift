@@ -40,4 +40,26 @@ class MoviesViewModel {
         }
     }
     
+    //add Image to favourites
+    func addRemoveImageToFavourites(id: Int) {
+        
+        var array = UserDefaults.standard.array(forKey: "myFavouriteMovies") as? [Int] ?? []
+        if array.contains(id) {
+            array.removeAll { $0 == id }
+        } else {
+            array.append(id)
+        }
+        UserDefaults.standard.set(array, forKey: "myFavouriteMovies")
+
+    }
+    
+    //check if Image is favourite
+    func isImageFavourite(with id: Int) -> Bool {
+        if let array = UserDefaults.standard.array(forKey: "myFavouriteMovies") as? [Int] {
+            return array.contains(id)
+        } else {
+            return false
+        }
+    }
+    
 }

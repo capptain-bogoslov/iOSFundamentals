@@ -68,8 +68,16 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
         switch (indexPath.section, indexPath.row) {
         case (0, _):
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieViewCell", for: indexPath) as? GeneriTableViewCell<MovieView> else { return UITableViewCell() }
-            
-            cell.view.config(title: movies[indexPath.row].title, rating: 0.0, releaseDate: movies[indexPath.row].releaseDate, isFavourite: true, imageString: movies[indexPath.row].image, service: self.viewModel.service)
+            //check for index out of bounds
+            guard movies.count > indexPath.row else {
+                return UITableViewCell()
+            }
+            let movie = movies[indexPath.row]
+            cell.view.config(title: movie.title, rating: 0.0, releaseDate: movie.releaseDate, isFavourite: viewModel.isImageFavourite(with: movie.id), imageString: movie.image, service: self.viewModel.service)
+            cell.view.favouriteTapped = { [weak self] in
+                self?.viewModel.addRemoveImageToFavourites(id: movie.id)
+                self?.contentView.tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
             return cell
         default:
             return UITableViewCell()
@@ -83,8 +91,8 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let movieDetails = MovieDetailsViewController()
-        movieDetails.modalPresentationStyle = .fullScreen
-        navigationController?.pushViewController(movieDetails, animated: true)
+//        movieDetails.modalPresentationStyle = .fullScreen
+//        navigationController?.pushViewController(movieDetails, animated: true)
     }
     
 }
