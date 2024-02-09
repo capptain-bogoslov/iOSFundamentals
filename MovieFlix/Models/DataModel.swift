@@ -33,7 +33,7 @@ struct MoviesResponse: Codable {
 
 
 struct Movie: Codable {
-    var id: String
+    var id: Int
     var title: String
     var image: String
     var releaseDate: String
@@ -41,7 +41,7 @@ struct Movie: Codable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(String.self, forKey: .id)
+        self.id = try container.decode(Int.self, forKey: .id)
         self.title = try container.decode(String.self, forKey: .title)
         self.image = try container.decode(String.self, forKey: .image)
         self.releaseDate = try container.decode(String.self, forKey: .releaseDate)

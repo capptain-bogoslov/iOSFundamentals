@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+struct Constants {
+    
+    struct URL {
+        static let imageBaseUrl = "https://image.tmdb.org/t/p/w500"
+    }
+    
+    
+}

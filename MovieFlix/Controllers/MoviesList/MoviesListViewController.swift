@@ -13,6 +13,8 @@ class MoviesListViewController: UIViewController {
     
     let viewModel: MoviesViewModel = MoviesViewModel(service: MockNetworkService())
     
+    var movies: [Movie] = []
+    
     override func loadView() {
         view = contentView
     }
@@ -30,6 +32,12 @@ class MoviesListViewController: UIViewController {
         self.contentView.tableView.dataSource = self
         
         setUpNavigationBar()
+        
+        //get movie data & update table
+        Task {
+            self.movies = await viewModel.getMovies()
+            self.contentView.tableView.reloadData()
+        }
     }
     
     func setUpNavigationBar() {
@@ -53,13 +61,15 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 34
+        return movies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch (indexPath.section, indexPath.row) {
         case (0, _):
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieViewCell", for: indexPath) as? GeneriTableViewCell<MovieView> else { return UITableViewCell() }
+            
+            cell.view.config(title: movies[indexPath.row].title, rating: 0.0, releaseDate: movies[indexPath.row].releaseDate, isFavourite: true, imageString: movies[indexPath.row].image, service: self.viewModel.service)
             return cell
         default:
             return UITableViewCell()
