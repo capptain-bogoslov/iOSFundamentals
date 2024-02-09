@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct MovieDetailView: View {
+    
+    @State var isFavourite: Bool
+    
     var body: some View {
         ZStack {
             ScrollView {
@@ -20,7 +23,7 @@ struct MovieDetailView: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                     
                     Button(action: {
-                        
+                        openShareSheet(url: "http://www.foxmovies.com/movies/fight-club")
                     }, label: {
                         Image("share")
                     })
@@ -44,9 +47,9 @@ struct MovieDetailView: View {
                         }
                         Spacer()
                         Button(action: {
-                            
+                            self.isFavourite.toggle()
                         }, label: {
-                            Image("Heart_g")
+                            Image(isFavourite ? "Heart" : "Heart_g")
                             
                         })
                     }
@@ -88,8 +91,16 @@ struct MovieDetailView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
+    
+    func openShareSheet(url: String) {
+        
+        guard let url = URL(string: url) else { return }
+        let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+        
+        UIApplication.shared.windows.first?.rootViewController?.present(activityViewController, animated: true)
+    }
 }
 
 #Preview {
-    MovieDetailView()
+    MovieDetailView(isFavourite: false)
 }

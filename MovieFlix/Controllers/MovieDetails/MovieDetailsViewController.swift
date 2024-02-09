@@ -16,7 +16,7 @@ class MovieDetailsViewController: UIViewController {
         
         setupNavigationBar()
         
-        let vc = UIHostingController(rootView: MovieDetailView())
+        let vc = UIHostingController(rootView: MovieDetailView(isFavourite: false))
         guard let movieDetailView = vc.view else { return }
         movieDetailView.translatesAutoresizingMaskIntoConstraints = false
         
