@@ -9,7 +9,9 @@ import SwiftUI
 
 struct MovieDetailView: View {
     
+    @EnvironmentObject var model: MovieDetailsViewModel
     @State var isFavourite: Bool
+    @State var movie: MovieDetailResponse?
     
     var body: some View {
         ZStack {
@@ -37,7 +39,7 @@ struct MovieDetailView: View {
                     //Title-Genre-Favourite
                     HStack {
                         VStack(alignment: .leading) {
-                            Text("The Light Warrior")
+                            Text(movie?.title ?? "")
                                 .font(.system(size: 32, weight: .bold))
                             
                             Text("Action, Adventure")
@@ -71,9 +73,9 @@ struct MovieDetailView: View {
                         }
                     }
                     
-                    DetailSectionView(type: .runtime, description: "2h 28m")
+                    DetailSectionView(type: .runtime, description: "\(String(describing: movie?.runtime))")
                     
-                    DetailSectionView(type: .description, description: "A man tries to find a lost treasure, buried deep inside the Amazon joungle")
+                    DetailSectionView(type: .description, description: movie?.description ?? "")
                     
                     DetailSectionView(type: .cast, description: "Keeanu Reeves, LeBron James, Cameron Diaz")
                     
@@ -90,6 +92,9 @@ struct MovieDetailView: View {
         }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onAppear {
+            self.movie = model.movieDetail
+        }
     }
     
     func openShareSheet(url: String) {
@@ -101,6 +106,3 @@ struct MovieDetailView: View {
     }
 }
 
-#Preview {
-    MovieDetailView(isFavourite: false)
-}

@@ -90,9 +90,13 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard movies.count > indexPath.row else { return }
+
         let movieDetails = MovieDetailsViewController()
-//        movieDetails.modalPresentationStyle = .fullScreen
-//        navigationController?.pushViewController(movieDetails, animated: true)
+        
+        movieDetails.movieId = movies[indexPath.row].id
+        movieDetails.modalPresentationStyle = .fullScreen
+        navigationController?.pushViewController(movieDetails, animated: true)
     }
     
 }
