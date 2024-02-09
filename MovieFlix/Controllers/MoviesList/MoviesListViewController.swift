@@ -69,6 +69,12 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
         return UITableView.automaticDimension
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movieDetails = MovieDetailsViewController()
+        movieDetails.modalPresentationStyle = .fullScreen
+        navigationController?.pushViewController(movieDetails, animated: true)
+    }
+    
 }
 
 
