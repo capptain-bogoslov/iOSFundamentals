@@ -92,8 +92,8 @@ struct MovieDetailView: View {
         }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .onAppear {
-            self.movie = model.movieDetail
+        .onReceive(model.$movieDetail) { newData in
+            self.movie = newData
         }
     }
     

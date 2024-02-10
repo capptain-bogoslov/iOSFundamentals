@@ -144,7 +144,7 @@ class MovieView: UIView {
         guard let service = service else { return }
         Task {
             do {
-                guard let url = URL(string: Constants.URL.imageBaseUrl + imageString) else { return }
+                guard let url = URL(string: MoviesURL.image(name: imageString).url) else { return }
                 let imageData = try await service.getImage(from: url)
                 self.movieImage.image = UIImage(data: imageData)
                 

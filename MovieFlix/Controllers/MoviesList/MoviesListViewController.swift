@@ -11,7 +11,7 @@ class MoviesListViewController: UIViewController {
     
     private var contentView = MoviesListView()
     
-    let viewModel: MoviesViewModel = MoviesViewModel(service: MockNetworkService())
+    let viewModel: MoviesViewModel = MoviesViewModel(service: NetworkAPIService())
     
     var movies: [Movie] = []
     

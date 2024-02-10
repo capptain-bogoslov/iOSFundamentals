@@ -14,16 +14,27 @@ class MoviesViewModel {
     
     var movies: [Movie] = []
     
+    var page: Int = 0
+    
+    var totalPages: Int = 0
+    
+    var totalResults: Int = 0
+    
     init(service: NetworkServiceProtocol) {
         self.service = service
 
     }
     
     //get all movies from service
-    func getMovies() async -> [Movie] {
+    func getMovies(page: Int = 1) async -> [Movie] {
         
-        self.movies =  await service.getMovies() ?? []
-        
+        guard let data =  await service.getMovies(page: page) else {
+            return []
+        }
+        self.movies = data.results
+        self.page = data.page
+        self.totalPages = data.totalPages
+        self.totalResults = data.totalResults
         return movies
     }
     

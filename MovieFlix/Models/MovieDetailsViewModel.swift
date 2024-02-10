@@ -27,7 +27,10 @@ class MovieDetailsViewModel: ObservableObject {
     
     //get movie details
     func getMovieDetail(id: Int) async {
-        self.movieDetail = await service.getMovieDetail()
+        let movieDetail = await service.getMovieDetail(id: id)
+        await MainActor.run {
+            self.movieDetail = movieDetail
+        }
         
     }
     

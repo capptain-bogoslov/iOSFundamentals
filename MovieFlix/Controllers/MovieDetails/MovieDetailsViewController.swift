@@ -21,7 +21,7 @@ class MovieDetailsViewController: UIViewController {
         let vc = UIHostingController(rootView:
                                         MovieDetailView(
                                             isFavourite: false)
-                                            .environmentObject(MovieDetailsViewModel(id: movieId, service: MockNetworkService()))
+                                            .environmentObject(MovieDetailsViewModel(id: movieId, service: NetworkAPIService()))
                                             )
         guard let movieDetailView = vc.view else { return }
         movieDetailView.translatesAutoresizingMaskIntoConstraints = false
