@@ -72,6 +72,7 @@ struct Actor: Codable {
 }
 
 struct MovieDetailResponse: Codable {
+    var id: Int
     var title: String
     var genres: [Genre]
     var rating: CGFloat
@@ -80,9 +81,23 @@ struct MovieDetailResponse: Codable {
     var description: String
     var credits: Credits
     var homepage: String
+    var imagePath: String
+    
+    //format the date in the desired format when received from API
+    var formattedDate: String? {
+        let dateFormatter = DateFormatter()
+        //pass the date form from the API
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        //transform it to date
+        guard let date = dateFormatter.date(from: releaseDate) else { return nil }
+        //format to desired date format
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        return dateFormatter.string(from: date)
+    }
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(Int.self, forKey: .id)
         self.title = try container.decode(String.self, forKey: .title)
         self.genres = try container.decode([Genre].self, forKey: .genres)
         self.rating = try container.decode(CGFloat.self, forKey: .rating)
@@ -91,9 +106,11 @@ struct MovieDetailResponse: Codable {
         self.description = try container.decode(String.self, forKey: .description)
         self.credits = try container.decode(Credits.self, forKey: .credits)
         self.homepage = try container.decode(String.self, forKey: .homepage)
+        self.imagePath = try container.decode(String.self, forKey: .imagePath)
     }
     
     enum CodingKeys: String, CodingKey {
+        case id
         case title = "original_title"
         case genres
         case rating = "vote_average"
@@ -102,5 +119,6 @@ struct MovieDetailResponse: Codable {
         case description = "overview"
         case credits
         case homepage
+        case imagePath = "backdrop_path"
     }
 }

@@ -40,6 +40,13 @@ class MoviesListViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //update tableview
+        self.contentView.tableView.reloadData()
+    }
+    
     func setUpNavigationBar() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -93,8 +100,9 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
         guard movies.count > indexPath.row else { return }
 
         let movieDetails = MovieDetailsViewController()
-        
+        //pass values to next vc
         movieDetails.movieId = movies[indexPath.row].id
+        movieDetails.isMovieFavourite = viewModel.isImageFavourite(with: movies[indexPath.row].id)
         movieDetails.modalPresentationStyle = .fullScreen
         navigationController?.pushViewController(movieDetails, animated: true)
     }
