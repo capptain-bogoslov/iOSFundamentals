@@ -50,7 +50,7 @@ struct DetailSectionView: View {
     var type: DetailType
     var description: String
     var reviews: [(String, String)] = []
-    var similarMovies: [String] = []
+    var similarMovies: [UIImage] = []
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -79,7 +79,7 @@ struct DetailSectionView: View {
                 ScrollView(.horizontal) {
                     HStack(spacing: 15) {
                         ForEach(similarMovies, id: \.self) { movie in
-                            Image(movie)
+                            Image(uiImage: movie)
                                 .resizable()
                                 .scaledToFit()
                                 .clipShape(RoundedRectangle(cornerRadius: 5))

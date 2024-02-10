@@ -14,6 +14,7 @@ struct MovieDetailView: View {
     @State var movie: MovieDetailResponse?
     @State var imageData: Data?
     @State var reviewsData: [(String, String)] = []
+    @State var similarMovies: [UIImage] = []
     
     var body: some View {
         ZStack {
@@ -99,7 +100,7 @@ struct MovieDetailView: View {
                     DetailSectionView(type: .reviews, description: "", reviews: model.reviewsData)
                         .frame(height: 200)
                     
-                    DetailSectionView(type: .similarMovies, description: "", similarMovies: ["1984", "1984", "1984", "1984", "1984", "1984"])
+                    DetailSectionView(type: .similarMovies, description: "", similarMovies: self.similarMovies)
                         .padding(.bottom, 20)
                     
                     Spacer()
@@ -117,6 +118,9 @@ struct MovieDetailView: View {
         }
         .onReceive(model.$reviewsData) { reviewData in
             self.reviewsData = reviewData
+        }
+        .onReceive(model.$similarMovies) { similarImages in
+            self.similarMovies = similarImages
         }
     }
     

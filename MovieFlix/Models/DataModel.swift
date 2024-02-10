@@ -34,18 +34,20 @@ struct MoviesResponse: Codable {
 
 struct Movie: Codable {
     var id: Int
-    var title: String
-    var image: String
-    var releaseDate: String
-    var rating: CGFloat
+    var title: String?
+    var image: String?
+    var releaseDate: String?
+    var rating: CGFloat?
+    var poster: String?
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(Int.self, forKey: .id)
         self.title = try container.decode(String.self, forKey: .title)
-        self.image = try container.decode(String.self, forKey: .image)
+        self.image = try container.decodeIfPresent(String.self, forKey: .image)
         self.releaseDate = try container.decode(String.self, forKey: .releaseDate)
         self.rating = try container.decode(CGFloat.self, forKey: .rating)
+        self.poster = try container.decodeIfPresent(String.self, forKey: .poster)
     }
     
     enum CodingKeys: String, CodingKey {
@@ -54,6 +56,7 @@ struct Movie: Codable {
         case image = "backdrop_path"
         case releaseDate = "release_date"
         case rating = "vote_average"
+        case poster = "poster_path"
     }
 }
 
