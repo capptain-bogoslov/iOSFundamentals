@@ -13,6 +13,7 @@ struct MovieDetailView: View {
     @State var isFavourite: Bool
     @State var movie: MovieDetailResponse?
     @State var imageData: Data?
+    @State var reviewsData: [(String, String)] = []
     
     var body: some View {
         ZStack {
@@ -95,7 +96,7 @@ struct MovieDetailView: View {
                     
                     DetailSectionView(type: .cast, description: model.castMembers)
                     
-                    DetailSectionView(type: .reviews, description: "", reviews: ["Alexandra" : "I had a great laugh. What a good movie. I wonder how not everybody seen it yet", "Anna" : "Lol, boring. I wanted to sleep", "Irini" : "Not that anything that this is going to happen", "Stefania" : "Best time ever"])
+                    DetailSectionView(type: .reviews, description: "", reviews: model.reviewsData)
                         .frame(height: 200)
                     
                     DetailSectionView(type: .similarMovies, description: "", similarMovies: ["1984", "1984", "1984", "1984", "1984", "1984"])
@@ -113,6 +114,9 @@ struct MovieDetailView: View {
         }
         .onReceive(model.$imageData) { imageData in
             self.imageData = imageData
+        }
+        .onReceive(model.$reviewsData) { reviewData in
+            self.reviewsData = reviewData
         }
     }
     

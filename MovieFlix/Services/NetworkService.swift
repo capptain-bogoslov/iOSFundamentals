@@ -12,6 +12,7 @@ protocol NetworkServiceProtocol {
     func getMovies(page: Int) async -> MoviesResponse?
     func getImage(from url: URL) async throws -> Data
     func getMovieDetail(id: Int) async -> MovieDetailResponse?
+    func getMovieReviews(id: Int) async -> MovieReviewsResponse?
 }
 
 //create mock service
@@ -52,6 +53,11 @@ class MockNetworkService: NetworkServiceProtocol {
         let (data, _) = try await URLSession.shared.data(for: request)
         return data
     }
+    
+    func getMovieReviews(id: Int) async -> MovieReviewsResponse? {
+        return nil
+    }
+    
 }
 
 class NetworkAPIService: NetworkServiceProtocol {
@@ -64,10 +70,7 @@ class NetworkAPIService: NetworkServiceProtocol {
         //create session
         let session = URLSession.shared
         //create request
-        var request = URLRequest(url: url)
- 
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        request.httpMethod = "GET"
+        let request = URLRequest(url: url)
         
         do {
             //fetch data
@@ -103,10 +106,7 @@ class NetworkAPIService: NetworkServiceProtocol {
         //create session
         let session = URLSession.shared
         //create request
-        var request = URLRequest(url: url)
- 
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        request.httpMethod = "GET"
+        let request = URLRequest(url: url)
         
         do {
             //fetch data
@@ -127,4 +127,23 @@ class NetworkAPIService: NetworkServiceProtocol {
         } 
     }
     
+    //download Reviews for a Movie
+    func getMovieReviews(id: Int) async -> MovieReviewsResponse? {
+        
+        guard let url = URL(string: MoviesURL.reviews(id: id).url) else { return nil}
+        let session = URLSession.shared
+        let request = URLRequest(url: url)
+        do {
+            let (data, response) = try await session.data(for: request)
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                print("Invalid network response for movie reviews")
+                return nil
+            }
+            let reviewsData = try JSONDecoder().decode(MovieReviewsResponse.self, from: data)
+            return reviewsData
+        } catch {
+            print("Invalid network response for movie reviews")
+        }
+        return nil
+    }
 }

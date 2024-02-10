@@ -49,7 +49,7 @@ struct DetailSectionView: View {
     
     var type: DetailType
     var description: String
-    var reviews: [String : String] = [:]
+    var reviews: [(String, String)] = []
     var similarMovies: [String] = []
     
     var body: some View {
@@ -65,11 +65,11 @@ struct DetailSectionView: View {
             case .reviews:
                 ScrollView {
                     VStack(alignment: .leading, spacing: 10) {
-                        ForEach(reviews.sorted(by: <), id: \.key) { author, review in
-                            Text(author)
+                        ForEach(reviews, id: \.0) { review in
+                            Text(review.0)
                                 .font(.system(size: 16, weight: .bold))
                                 .foregroundColor(type.descriptionColor)
-                            Text(review)
+                            Text(review.1)
                                 .foregroundColor(.black)
                                 .font(.system(size: 16, weight: .bold))
                         }

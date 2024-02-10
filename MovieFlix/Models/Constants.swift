@@ -34,7 +34,7 @@ enum MoviesURL {
         case .search(query: let query):
             return "https://api.themoviedb.org/3/search/movie?query=\(query)&api_key=\(Constants.APIkey.apiKeyAuth)"
         case .reviews(id: let id):
-            return "https://api.themoviedb.org/3/movie/\(id)/reviews&api_key=\(Constants.APIkey.apiKeyAuth)"
+            return "https://api.themoviedb.org/3/movie/\(id)/reviews?api_key=\(Constants.APIkey.apiKeyAuth)"
         case .similar(id: let id):
             return "https://api.themoviedb.org/3/movie/\(id)/similar&api_key=\(Constants.APIkey.apiKeyAuth)"
         }

@@ -80,7 +80,7 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             let movie = movies[indexPath.row]
-            cell.view.config(title: movie.title, rating: 0.0, releaseDate: movie.releaseDate, isFavourite: viewModel.isImageFavourite(with: movie.id), imageString: movie.image, service: self.viewModel.service)
+            cell.view.config(title: movie.title, rating: 0.0, releaseDate: DateHandler.shared.getDate(input: movie.releaseDate) ?? "", isFavourite: viewModel.isImageFavourite(with: movie.id), imageString: movie.image, service: self.viewModel.service)
             cell.view.favouriteTapped = { [weak self] in
                 self?.viewModel.addRemoveImageToFavourites(id: movie.id)
                 self?.contentView.tableView.reloadRows(at: [indexPath], with: .automatic)

@@ -16,6 +16,7 @@ class MovieDetailsViewModel: ObservableObject {
     var service: NetworkServiceProtocol
     @Published var movieDetail: MovieDetailResponse? = nil
     @Published var imageData: Data? = nil
+    @Published var reviewsData: [(String, String)] = []
     //concatenate genre names
     var genresConcatenated: String {
         guard let movieDetail = movieDetail else { return ""}
@@ -45,6 +46,7 @@ class MovieDetailsViewModel: ObservableObject {
         Task {
             self.movieDetail = await getMovieDetail(id: id)
             self.imageData = await getMovieImage(path: movieDetail?.imagePath ?? "")
+            self.reviewsData = await getMovieReviews(id: id)
         }
     }
     
@@ -52,9 +54,6 @@ class MovieDetailsViewModel: ObservableObject {
     //get movie details
     func getMovieDetail(id: Int) async -> MovieDetailResponse? {
         let movieDetail = await service.getMovieDetail(id: id)
-//        await MainActor.run {
-//            self.movieDetail = movieDetail
-//        }
         return movieDetail
     }
     
@@ -80,7 +79,18 @@ class MovieDetailsViewModel: ObservableObject {
             array.append(movieDetails.id)
         }
         UserDefaults.standard.set(array, forKey: "myFavouriteMovies")
-
+    }
+    
+    //retrieve movie reviews and return the firs two values
+    func getMovieReviews(id: Int) async -> [(String, String)]  {
+        let movieReviews = await service.getMovieReviews(id: id)
+        let firstTwoReview = movieReviews?.results.prefix(2)
+        var reviewsToDisplay: [(String, String)] = []
+        firstTwoReview?.forEach({ review in
+            let r = (review.author, review.content)
+            reviewsToDisplay.append(r)
+        })
+        return reviewsToDisplay
     }
 }
     

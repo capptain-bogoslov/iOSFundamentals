@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-
+//Data and response from Movies List API
 struct MoviesResponse: Codable {
     var page: Int
     var results: [Movie]
@@ -57,7 +57,7 @@ struct Movie: Codable {
     }
 }
 
-
+//Data and response from Movie Detail API
 struct Genre: Codable {
     var id: Int
     var name: String
@@ -121,4 +121,16 @@ struct MovieDetailResponse: Codable {
         case homepage
         case imagePath = "backdrop_path"
     }
+}
+
+
+//Data and response from Movie Reviews API
+struct MovieReviewsResponse: Codable {
+    var id: Int
+    var results: [Review]
+}
+
+struct Review: Codable {
+    var author: String
+    var content: String
 }
