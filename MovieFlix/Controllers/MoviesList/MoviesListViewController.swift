@@ -15,6 +15,10 @@ class MoviesListViewController: UIViewController {
     
     var movies: [Movie] = []
     
+    var currentPage: Int = 1
+    
+    var isLoadingMovies: Bool = false
+    
     //add refresh control to update the data
     let refreshControl = UIRefreshControl()
     
@@ -39,11 +43,8 @@ class MoviesListViewController: UIViewController {
         
         setUpNavigationBar()
         
-        //get movie data & update table
-        Task {
-            self.movies = await viewModel.getMovies()
-            self.contentView.tableView.reloadData()
-        }
+        //get data for firsta page
+        getNextPage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,12 +67,27 @@ class MoviesListViewController: UIViewController {
         setNeedsStatusBarAppearanceUpdate()
     }
     
+    
+    //function that contains the logic for refreshing data
     @objc func refreshTable() {
         //get movie data & update table
         Task {
-            self.movies = await viewModel.getMovies(page: 1)
+            getNextPage(page: 1)
+            self.currentPage = 1
             self.contentView.tableView.refreshControl?.endRefreshing()
             self.contentView.tableView.reloadData()
+        }
+    }
+    
+    //function that fetches Data for the next page and update the table view
+    func getNextPage(page: Int = 1) {
+        //get movie data append it to toal movies & update table
+        Task {
+            let fetchedMovies = await viewModel.getMovies(page: page)
+            self.movies.append(contentsOf: fetchedMovies)
+            self.contentView.tableView.reloadData()
+            self.isLoadingMovies = false
+
         }
     }
 }
@@ -120,6 +136,19 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
         movieDetails.isMovieFavourite = viewModel.isImageFavourite(with: movies[indexPath.row].id)
         movieDetails.modalPresentationStyle = .fullScreen
         navigationController?.pushViewController(movieDetails, animated: true)
+    }
+    
+    //receive the next page when user scrolls to the last cell
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        //define last row
+        let lastRow = tableView.numberOfRows(inSection: 0) - 1
+        if indexPath.row == lastRow, !isLoadingMovies {
+            //update current page
+            self.currentPage += 1
+            self.isLoadingMovies = true
+            getNextPage(page: currentPage)
+        }
     }
     
 }
