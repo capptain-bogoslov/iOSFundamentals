@@ -45,6 +45,11 @@ class MoviesListViewController: UIViewController {
         
         //get data for first page
         getNextPage()
+        
+        //handle scroll back to top button
+        self.contentView.backToTopPressed = { [weak self] in
+            self?.contentView.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,15 +88,14 @@ class MoviesListViewController: UIViewController {
     //function that fetches Data for the next page and update the table view
     func getNextPage(page: Int = 1) {
         //get movie data append it to toal movies & update table
-        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
-
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             Task {
                 let fetchedMovies = await self.viewModel.getMovies(page: page)
                 self.isLoadingMovies = false
                 self.movies.append(contentsOf: fetchedMovies)
                 self.contentView.tableView.reloadData()
             }
-        }
+//        }
     }
 }
 
@@ -156,6 +160,9 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
     //receive the next page when user scrolls to the last cell
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
+        //show backToTopButton
+        self.contentView.backToTopButton.isHidden = indexPath.row <= 5
+
         //define last row
         let lastRow = tableView.numberOfRows(inSection: 0) - 1
         //check if is table is in last row and is not currently downloading data

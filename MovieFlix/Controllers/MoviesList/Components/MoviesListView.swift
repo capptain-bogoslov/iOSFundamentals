@@ -8,6 +8,8 @@ import Foundation
 import UIKit
 
 class MoviesListView: UIView {
+    
+    var backToTopPressed: (() -> Void)?
 
     lazy var searchBar: UISearchBar = {
         let view = UISearchBar()
@@ -38,6 +40,17 @@ class MoviesListView: UIView {
         tableView.backgroundColor = .white
         return tableView
     }()
+    
+    lazy var backToTopButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "arrow.up"), for: .normal)
+        button.backgroundColor = UIColor(named: "LightGray")
+        button.tintColor = .black
+        button.layer.cornerRadius = 3
+        button.addTarget(self, action: #selector(backToTop), for: .touchUpInside)
+        return button
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -53,7 +66,9 @@ class MoviesListView: UIView {
         addSubview(tableView)
         addSubview(searchBar)
         addSubview(lineView)
+        addSubview(backToTopButton)
         
+        backToTopButton.isHidden = true
         NSLayoutConstraint.activate([
             searchBar.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
             searchBar.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
@@ -65,8 +80,17 @@ class MoviesListView: UIView {
             tableView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 0),
             tableView.topAnchor.constraint(equalTo: lineView.topAnchor, constant: 0),
             tableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            tableView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
+            tableView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            backToTopButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -50),
+            backToTopButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -30),
+            backToTopButton.widthAnchor.constraint(equalToConstant: 30),
+            backToTopButton.heightAnchor.constraint(equalToConstant: 30)
+
         ])
         
+    }
+    
+    @objc func backToTop() {
+        self.backToTopPressed?()
     }
 }
