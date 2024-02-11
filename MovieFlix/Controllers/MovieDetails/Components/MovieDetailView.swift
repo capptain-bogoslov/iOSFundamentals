@@ -21,6 +21,7 @@ struct MovieDetailView: View {
     
     var body: some View {
         ZStack {
+            Color.white.ignoresSafeArea()
             ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 
@@ -60,6 +61,7 @@ struct MovieDetailView: View {
                         VStack(alignment: .leading) {
                             Text(movie?.title ?? "")
                                 .font(.system(size: 32, weight: .bold))
+                                .foregroundColor(.black)
                             
                             Text(model.genresConcatenated)
                                 .font(.system(size: 12, weight: .bold))
@@ -101,12 +103,15 @@ struct MovieDetailView: View {
                     
                     DetailSectionView(type: .cast, description: model.castMembers)
                     
-                    DetailSectionView(type: .reviews, description: "", reviews: model.reviewsData)
-                        .frame(height: 200)
+                    if !reviewsData.isEmpty {
+                        DetailSectionView(type: .reviews, description: "", reviews: model.reviewsData)
+                            .frame(height: 200)
+                    }
                     
-                    DetailSectionView(type: .similarMovies, description: "", similarMovies: self.similarMovies)
-                        .padding(.bottom, 20)
-                    
+                    if !similarMovies.isEmpty {
+                        DetailSectionView(type: .similarMovies, description: "", similarMovies: self.similarMovies)
+                            .padding(.bottom, 20)
+                    }
                     Spacer()
                 }
                 .padding(.horizontal, 15)

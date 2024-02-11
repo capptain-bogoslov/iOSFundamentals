@@ -62,6 +62,7 @@ class MoviesListViewController: UIViewController {
         appearance.shadowImage = UIImage()
         navigationController?.navigationBar.tintColor = .black
         UINavigationBar.appearance().tintColor = .black
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         setNeedsStatusBarAppearanceUpdate()

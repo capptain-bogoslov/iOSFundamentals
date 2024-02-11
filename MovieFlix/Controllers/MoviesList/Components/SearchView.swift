@@ -13,8 +13,10 @@ class SearchView: UIView {
     private lazy var searchBar: UISearchBar = {
         let view = UISearchBar()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.barTintColor = UIColor(named: "LightGray")
+        view.searchTextField.textColor = .black
         view.placeholder = "Search"
-        view.searchBarStyle = .minimal
+        view.searchBarStyle = .default
         return view
     }()
     
