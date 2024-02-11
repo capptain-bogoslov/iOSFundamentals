@@ -56,6 +56,7 @@ struct DetailSectionView: View {
         VStack(alignment: .leading, spacing: 10) {
             Text(type.title)
                 .font(.system(size: 18, weight: .bold))
+                .foregroundColor(.black)
             
             switch type {
             case .runtime, .description, .cast:

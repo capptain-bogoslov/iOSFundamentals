@@ -84,7 +84,7 @@ struct MovieDetailResponse: Codable {
     var description: String
     var credits: Credits
     var homepage: String
-    var imagePath: String
+    var imagePath: String?
     
     //format the date in the desired format when received from API
     var formattedDate: String? {
@@ -109,7 +109,7 @@ struct MovieDetailResponse: Codable {
         self.description = try container.decode(String.self, forKey: .description)
         self.credits = try container.decode(Credits.self, forKey: .credits)
         self.homepage = try container.decode(String.self, forKey: .homepage)
-        self.imagePath = try container.decode(String.self, forKey: .imagePath)
+        self.imagePath = try container.decodeIfPresent(String.self, forKey: .imagePath)
     }
     
     enum CodingKeys: String, CodingKey {
