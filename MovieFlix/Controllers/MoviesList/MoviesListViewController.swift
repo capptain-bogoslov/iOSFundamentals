@@ -146,9 +146,11 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
         let lastRow = tableView.numberOfRows(inSection: 0) - 1
         if indexPath.row == lastRow, !isLoadingMovies {
             //update current page
-            self.currentPage += 1
-            self.isLoadingMovies = true
-            getNextPage(page: currentPage)
+            if currentPage <= viewModel.totalPages {
+                self.currentPage += 1
+                self.isLoadingMovies = true
+                getNextPage(page: currentPage)
+            }
         }
     }
     
