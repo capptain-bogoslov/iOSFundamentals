@@ -15,6 +15,9 @@ class MoviesListViewController: UIViewController {
     
     var movies: [Movie] = []
     
+    //add refresh control to update the data
+    let refreshControl = UIRefreshControl()
+    
     override func loadView() {
         view = contentView
     }
@@ -31,6 +34,8 @@ class MoviesListViewController: UIViewController {
         self.contentView.tableView.delegate = self
         self.contentView.tableView.dataSource = self
         self.contentView.searchBar.delegate = self
+        refreshControl.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
+        self.contentView.tableView.refreshControl = refreshControl
         
         setUpNavigationBar()
         
@@ -59,6 +64,15 @@ class MoviesListViewController: UIViewController {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    @objc func refreshTable() {
+        //get movie data & update table
+        Task {
+            self.movies = await viewModel.getMovies(page: 1)
+            self.contentView.tableView.refreshControl?.endRefreshing()
+            self.contentView.tableView.reloadData()
+        }
     }
 }
 

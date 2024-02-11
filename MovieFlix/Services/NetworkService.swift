@@ -64,6 +64,8 @@ class MockNetworkService: NetworkServiceProtocol {
     }
 }
 
+
+//class that implements the Network Service and downloads data from API
 class NetworkAPIService: NetworkServiceProtocol {
     func getMovies(page: Int = 1, query: String? = nil) async -> MoviesResponse? {
         //define url string if we want all movies or those defined in query
