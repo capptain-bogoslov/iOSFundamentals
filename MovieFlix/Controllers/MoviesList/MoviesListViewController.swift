@@ -30,6 +30,7 @@ class MoviesListViewController: UIViewController {
         
         self.contentView.tableView.delegate = self
         self.contentView.tableView.dataSource = self
+        self.contentView.searchBar.delegate = self
         
         setUpNavigationBar()
         
@@ -80,7 +81,7 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             let movie = movies[indexPath.row]
-            cell.view.config(title: movie.title ?? "", rating: 0.0, releaseDate: DateHandler.shared.getDate(input: movie.releaseDate) ?? "", isFavourite: viewModel.isImageFavourite(with: movie.id), imageString: movie.image ?? "", service: self.viewModel.service)
+            cell.view.config(title: movie.title ?? "", rating: movie.rating ?? 0.0, releaseDate: DateHandler.shared.getDate(input: movie.releaseDate) ?? "", isFavourite: viewModel.isImageFavourite(with: movie.id), imageString: movie.image ?? "", service: self.viewModel.service)
             cell.view.favouriteTapped = { [weak self] in
                 self?.viewModel.addRemoveImageToFavourites(id: movie.id)
                 self?.contentView.tableView.reloadRows(at: [indexPath], with: .automatic)
@@ -107,6 +108,32 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
         navigationController?.pushViewController(movieDetails, animated: true)
     }
     
+}
+
+extension MoviesListViewController: UISearchBarDelegate {
+    
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        //When user press return in search button then update table view with related movies
+        Task {
+            self.movies = await viewModel.getMovies(query: searchBar.text)
+            searchBar.resignFirstResponder()
+            self.contentView.tableView.reloadData()
+        }
+    }
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.enablesReturnKeyAutomatically = false
+        return true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        Task {
+            self.movies = await viewModel.getMovies()
+            searchBar.resignFirstResponder()
+            self.contentView.tableView.reloadData()
+        }
+    }
 }
 
 

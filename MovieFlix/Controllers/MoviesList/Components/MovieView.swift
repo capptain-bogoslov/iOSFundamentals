@@ -107,7 +107,7 @@ class MovieView: UIView {
         for _ in 1...5 {
             let starImage = UIImageView()
              let configuration = UIImage.SymbolConfiguration(font: UIFont.systemFont(ofSize: 14))
-            starImage.image = UIImage(systemName: "star.fill", withConfiguration: configuration)
+            starImage.image = UIImage(systemName: "star", withConfiguration: configuration)
             starImage.translatesAutoresizingMaskIntoConstraints = false
             starImage.contentMode = .scaleAspectFit
             starImage.tintColor = .yellow
@@ -140,6 +140,13 @@ class MovieView: UIView {
         self.titleLabel.text = title
         self.dateLabel.text = releaseDate
         self.heartImage.image = isFavourite ? UIImage(named: "Heart") : UIImage(named: "Heart_g")
+        
+        //update star views
+        let stars = Int(rating / 2)
+        for i in 0..<stars {
+            guard let starImage = stackView.arrangedSubviews[i] as? UIImageView else { return }
+            starImage.image = UIImage(systemName: "star.fill", withConfiguration: UIImage.SymbolConfiguration(font: UIFont.systemFont(ofSize: 14)))
+        }
         
         guard let service = service else { return }
         Task {

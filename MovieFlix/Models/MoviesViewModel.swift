@@ -26,9 +26,9 @@ class MoviesViewModel {
     }
     
     //get all movies from service
-    func getMovies(page: Int = 1) async -> [Movie] {
+    func getMovies(page: Int = 1, query: String? = nil) async -> [Movie] {
         
-        guard let data =  await service.getMovies(page: page) else {
+        guard let data =  await service.getMovies(page: page, query: query) else {
             return []
         }
         self.movies = data.results

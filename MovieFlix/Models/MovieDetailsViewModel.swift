@@ -39,6 +39,10 @@ class MovieDetailsViewModel: ObservableObject {
         let actors = movieDetail.credits.cast.prefix(5)
         return actors.compactMap{ $0.name }.joined(separator: ",")
     }
+    var rating: Int {
+        guard let movieDetail = movieDetail else { return 0 }
+        return Int(movieDetail.rating / 2)
+    }
 
     
     init(id: Int, service: NetworkServiceProtocol) {

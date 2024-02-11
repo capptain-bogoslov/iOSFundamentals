@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol NetworkServiceProtocol {
-    func getMovies(page: Int) async -> MoviesResponse?
+    func getMovies(page: Int, query: String?) async -> MoviesResponse?
     func getImage(from url: URL) async throws -> Data
     func getMovieDetail(id: Int) async -> MovieDetailResponse?
     func getMovieReviews(id: Int) async -> MovieReviewsResponse?
@@ -20,7 +20,7 @@ protocol NetworkServiceProtocol {
 class MockNetworkService: NetworkServiceProtocol {
    
     //get list of movies
-    func getMovies(page: Int = 1) async -> MoviesResponse? {
+    func getMovies(page: Int = 1, query: String? = nil) async -> MoviesResponse? {
         guard let mockData = Bundle.main.path(forResource: "movies", ofType: "json") else { return nil }
         do {
             guard let jsonData = try String(contentsOfFile: mockData).data(using: .utf8) else { return nil }
@@ -65,9 +65,16 @@ class MockNetworkService: NetworkServiceProtocol {
 }
 
 class NetworkAPIService: NetworkServiceProtocol {
-    func getMovies(page: Int = 1) async -> MoviesResponse? {
+    func getMovies(page: Int = 1, query: String? = nil) async -> MoviesResponse? {
+        //define url string if we want all movies or those defined in query
+        var urlString = ""
+        if let validQuery = query, !validQuery.isEmpty {
+            urlString = MoviesURL.searchMovies(query: validQuery, page: page).url
+        } else {
+            urlString = MoviesURL.moviesList(page: page).url
+        }
         //fetch data from API
-        guard let url = URL(string: MoviesURL.moviesList(page: 1).url) else {
+        guard let url = URL(string: urlString) else {
             print("Invalid url error")
             return nil
         }
@@ -169,4 +176,6 @@ class NetworkAPIService: NetworkServiceProtocol {
             return nil
         }
     }
+    
+    
 }

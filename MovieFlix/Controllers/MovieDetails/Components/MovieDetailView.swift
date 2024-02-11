@@ -15,6 +15,9 @@ struct MovieDetailView: View {
     @State var imageData: Data?
     @State var reviewsData: [(String, String)] = []
     @State var similarMovies: [UIImage] = []
+    var rating: Int {
+        model.rating
+    }
     
     var body: some View {
         ZStack {
@@ -81,13 +84,14 @@ struct MovieDetailView: View {
                             .foregroundColor(.orange)
                         
                         HStack {
-                            ForEach(0..<5) { _ in
-                                Image(systemName: "star.fill")
+                            ForEach(0..<5, id:\.self) { index in
+                                Image(systemName: (index + 1) <= rating ? "star.fill" : "star")
                                     .resizable()
                                     .scaledToFit()
                                     .foregroundColor(.yellow)
                                     .frame(width: 20, height: 20)
                             }
+
                         }
                     }
                     
