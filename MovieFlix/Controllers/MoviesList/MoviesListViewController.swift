@@ -17,7 +17,7 @@ class MoviesListViewController: UIViewController {
     
     var currentPage: Int = 1
     
-    var isLoadingMovies: Bool = false
+    var isLoadingMovies: Bool = true
     
     //add refresh control to update the data
     let refreshControl = UIRefreshControl()
@@ -43,17 +43,18 @@ class MoviesListViewController: UIViewController {
         
         setUpNavigationBar()
         
-        //get data for firsta page
+        //get data for first page
         getNextPage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //update tableview
+        //update tableview when returning from Movie Detail so it can depict favourite movies
         self.contentView.tableView.reloadData()
     }
     
+    //setup navigation bar color and style
     func setUpNavigationBar() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -68,13 +69,12 @@ class MoviesListViewController: UIViewController {
         setNeedsStatusBarAppearanceUpdate()
     }
     
-    
     //function that contains the logic for refreshing data
     @objc func refreshTable() {
         //get movie data & update table
         Task {
-            getNextPage(page: 1)
             self.currentPage = 1
+            getNextPage(page: currentPage)
             self.contentView.tableView.refreshControl?.endRefreshing()
             self.contentView.tableView.reloadData()
         }
@@ -83,12 +83,14 @@ class MoviesListViewController: UIViewController {
     //function that fetches Data for the next page and update the table view
     func getNextPage(page: Int = 1) {
         //get movie data append it to toal movies & update table
-        Task {
-            let fetchedMovies = await viewModel.getMovies(page: page)
-            self.movies.append(contentsOf: fetchedMovies)
-            self.contentView.tableView.reloadData()
-            self.isLoadingMovies = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
 
+            Task {
+                let fetchedMovies = await self.viewModel.getMovies(page: page)
+                self.isLoadingMovies = false
+                self.movies.append(contentsOf: fetchedMovies)
+                self.contentView.tableView.reloadData()
+            }
         }
     }
 }
@@ -100,12 +102,25 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movies.count
+        if isLoadingMovies {
+            //if is currently downloading add 5 cells for skeleton cells
+            return movies.count + 5
+        } else {
+            return movies.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch (indexPath.section, indexPath.row) {
         case (0, _):
+            
+            //check if cell row is
+            if isLoadingMovies, (indexPath.row + 1) > self.movies.count {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "SkeletonCell", for: indexPath) as? GeneriTableViewCell<SkeletonCell> else { return UITableViewCell() }
+                return cell
+
+            }
+            
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieViewCell", for: indexPath) as? GeneriTableViewCell<MovieView> else { return UITableViewCell() }
             //check for index out of bounds
             guard movies.count > indexPath.row else {
@@ -121,7 +136,6 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
         default:
             return UITableViewCell()
         }
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -129,7 +143,7 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard movies.count > indexPath.row else { return }
+        guard movies.count > indexPath.row + 1 else { return }
 
         let movieDetails = MovieDetailsViewController()
         //pass values to next vc
@@ -144,21 +158,28 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
         
         //define last row
         let lastRow = tableView.numberOfRows(inSection: 0) - 1
-        if indexPath.row == lastRow, !isLoadingMovies {
-            //update current page
+        //check if is table is in last row and is not currently downloading data
+        if indexPath.row == lastRow, !isLoadingMovies{
+            //update current page - reload table view to add skeleton cells
             if currentPage <= viewModel.totalPages {
                 self.currentPage += 1
                 self.isLoadingMovies = true
+                self.contentView.tableView.reloadData()
                 getNextPage(page: currentPage)
             }
         }
     }
     
+    //stop animations in skeleton loader when cell is out of sight
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let skeletonCell = cell.contentView as? SkeletonCell {
+            skeletonCell.stopAnimations()
+        }
+    }
 }
 
 extension MoviesListViewController: UISearchBarDelegate {
     
-
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         //When user press return in search button then update table view with related movies
         Task {
@@ -180,12 +201,6 @@ extension MoviesListViewController: UISearchBarDelegate {
             self.contentView.tableView.reloadData()
         }
     }
-    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if let skeletonCell = cell as? SkeletonCell {
-            skeletonCell.stopAnimations()
-        }
-    }
-    
 }
 
 
