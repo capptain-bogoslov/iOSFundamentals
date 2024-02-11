@@ -22,6 +22,8 @@
 		EB5A1C3D2B76C6A800AB05A2 /* movieDetail.json in Resources */ = {isa = PBXBuildFile; fileRef = EB5A1C3C2B76C6A800AB05A2 /* movieDetail.json */; };
 		EB5A1C3F2B76E31700AB05A2 /* MovieDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5A1C3E2B76E31700AB05A2 /* MovieDetailsViewModel.swift */; };
 		EB5A1C422B77A37C00AB05A2 /* DateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5A1C412B77A37C00AB05A2 /* DateHandler.swift */; };
+		EB5A1C452B792C4F00AB05A2 /* SkeletonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5A1C442B792C4F00AB05A2 /* SkeletonCell.swift */; };
+		EB5A1C4D2B792D2200AB05A2 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5A1C4C2B792D2200AB05A2 /* UIViewExtension.swift */; };
 		EB6DF18D2B72F1C500EFF0BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6DF18C2B72F1C500EFF0BB /* AppDelegate.swift */; };
 		EB6DF18F2B72F1C500EFF0BB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6DF18E2B72F1C500EFF0BB /* SceneDelegate.swift */; };
 		EB6DF1912B72F1C500EFF0BB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6DF1902B72F1C500EFF0BB /* ViewController.swift */; };
@@ -45,6 +47,8 @@
 		EB5A1C3C2B76C6A800AB05A2 /* movieDetail.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = movieDetail.json; sourceTree = "<group>"; };
 		EB5A1C3E2B76E31700AB05A2 /* MovieDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewModel.swift; sourceTree = "<group>"; };
 		EB5A1C412B77A37C00AB05A2 /* DateHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHandler.swift; sourceTree = "<group>"; };
+		EB5A1C442B792C4F00AB05A2 /* SkeletonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkeletonCell.swift; sourceTree = "<group>"; };
+		EB5A1C4C2B792D2200AB05A2 /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		EB6DF1892B72F1C500EFF0BB /* MovieFlix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieFlix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB6DF18C2B72F1C500EFF0BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EB6DF18E2B72F1C500EFF0BB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -110,6 +114,14 @@
 			path = DataModels;
 			sourceTree = "<group>";
 		};
+		EB5A1C4B2B792D2200AB05A2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				EB5A1C4C2B792D2200AB05A2 /* UIViewExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		EB6DF1802B72F1C500EFF0BB = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +141,7 @@
 		EB6DF18B2B72F1C500EFF0BB /* MovieFlix */ = {
 			isa = PBXGroup;
 			children = (
+				EB5A1C4B2B792D2200AB05A2 /* Extensions */,
 				EB5A1C432B78DD9D00AB05A2 /* DataModels */,
 				EB5A1C402B77A36700AB05A2 /* Utils */,
 				EB5A1C2E2B760CCA00AB05A2 /* Services */,
@@ -165,6 +178,7 @@
 		EB6DF1A42B73B57A00EFF0BB /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				EB5A1C442B792C4F00AB05A2 /* SkeletonCell.swift */,
 				EB5A1C132B73C39B00AB05A2 /* GeneriTableViewCell.swift */,
 				EB5A1C152B74137C00AB05A2 /* MoviesListView.swift */,
 				EB5A1C172B7413AC00AB05A2 /* SearchView.swift */,
@@ -248,11 +262,13 @@
 				EB6DF1912B72F1C500EFF0BB /* ViewController.swift in Sources */,
 				EB6DF18D2B72F1C500EFF0BB /* AppDelegate.swift in Sources */,
 				EB6DF18F2B72F1C500EFF0BB /* SceneDelegate.swift in Sources */,
+				EB5A1C452B792C4F00AB05A2 /* SkeletonCell.swift in Sources */,
 				EB5A1C252B75216E00AB05A2 /* MovieDetailView.swift in Sources */,
 				EB5A1C3B2B76731500AB05A2 /* Constants.swift in Sources */,
 				EB5A1C2D2B760C5600AB05A2 /* DataModel.swift in Sources */,
 				EB5A1C422B77A37C00AB05A2 /* DateHandler.swift in Sources */,
 				EB5A1C182B7413AC00AB05A2 /* SearchView.swift in Sources */,
+				EB5A1C4D2B792D2200AB05A2 /* UIViewExtension.swift in Sources */,
 				EB5A1C3F2B76E31700AB05A2 /* MovieDetailsViewModel.swift in Sources */,
 				EB5A1C162B74137C00AB05A2 /* MoviesListView.swift in Sources */,
 				EB5A1C1A2B7413DF00AB05A2 /* MovieView.swift in Sources */,
