@@ -11,6 +11,10 @@ class MoviesListViewController: UIViewController {
     
     private var contentView = MoviesListView()
     
+    let viewModel: MoviesViewModel = MoviesViewModel(service: NetworkAPIService())
+    
+    var movies: [Movie] = []
+    
     override func loadView() {
         view = contentView
     }
@@ -26,8 +30,22 @@ class MoviesListViewController: UIViewController {
         
         self.contentView.tableView.delegate = self
         self.contentView.tableView.dataSource = self
+        self.contentView.searchBar.delegate = self
         
         setUpNavigationBar()
+        
+        //get movie data & update table
+        Task {
+            self.movies = await viewModel.getMovies()
+            self.contentView.tableView.reloadData()
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //update tableview
+        self.contentView.tableView.reloadData()
     }
     
     func setUpNavigationBar() {
@@ -51,13 +69,23 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 34
+        return movies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch (indexPath.section, indexPath.row) {
         case (0, _):
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieViewCell", for: indexPath) as? GeneriTableViewCell<MovieView> else { return UITableViewCell() }
+            //check for index out of bounds
+            guard movies.count > indexPath.row else {
+                return UITableViewCell()
+            }
+            let movie = movies[indexPath.row]
+            cell.view.config(title: movie.title ?? "", rating: movie.rating ?? 0.0, releaseDate: DateHandler.shared.getDate(input: movie.releaseDate) ?? "", isFavourite: viewModel.isImageFavourite(with: movie.id), imageString: movie.image ?? "", service: self.viewModel.service)
+            cell.view.favouriteTapped = { [weak self] in
+                self?.viewModel.addRemoveImageToFavourites(id: movie.id)
+                self?.contentView.tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
             return cell
         default:
             return UITableViewCell()
@@ -70,11 +98,42 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard movies.count > indexPath.row else { return }
+
         let movieDetails = MovieDetailsViewController()
+        //pass values to next vc
+        movieDetails.movieId = movies[indexPath.row].id
+        movieDetails.isMovieFavourite = viewModel.isImageFavourite(with: movies[indexPath.row].id)
         movieDetails.modalPresentationStyle = .fullScreen
         navigationController?.pushViewController(movieDetails, animated: true)
     }
     
+}
+
+extension MoviesListViewController: UISearchBarDelegate {
+    
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        //When user press return in search button then update table view with related movies
+        Task {
+            self.movies = await viewModel.getMovies(query: searchBar.text)
+            searchBar.resignFirstResponder()
+            self.contentView.tableView.reloadData()
+        }
+    }
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.enablesReturnKeyAutomatically = false
+        return true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        Task {
+            self.movies = await viewModel.getMovies()
+            searchBar.resignFirstResponder()
+            self.contentView.tableView.reloadData()
+        }
+    }
 }
 
 

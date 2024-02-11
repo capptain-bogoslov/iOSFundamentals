@@ -9,7 +9,7 @@ import UIKit
 
 class MoviesListView: UIView {
 
-    private lazy var searchBar: UISearchBar = {
+    lazy var searchBar: UISearchBar = {
         let view = UISearchBar()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.placeholder = "Search"

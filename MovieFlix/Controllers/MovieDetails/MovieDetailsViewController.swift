@@ -11,12 +11,20 @@ import SwiftUI
 
 class MovieDetailsViewController: UIViewController {
     
+    var movieId: Int = 0
+    
+    var isMovieFavourite: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupNavigationBar()
         
-        let vc = UIHostingController(rootView: MovieDetailView(isFavourite: false))
+        let vc = UIHostingController(rootView:
+                                        MovieDetailView(
+                                            isFavourite: isMovieFavourite)
+                                            .environmentObject(MovieDetailsViewModel(id: movieId, service: NetworkAPIService()))
+                                            )
         guard let movieDetailView = vc.view else { return }
         movieDetailView.translatesAutoresizingMaskIntoConstraints = false
         
