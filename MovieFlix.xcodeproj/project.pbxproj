@@ -99,7 +99,7 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		EB5A1C432B78DD9D00AB05A2 /* New Group */ = {
+		EB5A1C432B78DD9D00AB05A2 /* DataModels */ = {
 			isa = PBXGroup;
 			children = (
 				EB5A1C332B761AF300AB05A2 /* MoviesViewModel.swift */,
@@ -107,7 +107,7 @@
 				EB5A1C3A2B76731500AB05A2 /* Constants.swift */,
 				EB5A1C2C2B760C5600AB05A2 /* DataModel.swift */,
 			);
-			path = "New Group";
+			path = DataModels;
 			sourceTree = "<group>";
 		};
 		EB6DF1802B72F1C500EFF0BB = {
@@ -129,7 +129,7 @@
 		EB6DF18B2B72F1C500EFF0BB /* MovieFlix */ = {
 			isa = PBXGroup;
 			children = (
-				EB5A1C432B78DD9D00AB05A2 /* New Group */,
+				EB5A1C432B78DD9D00AB05A2 /* DataModels */,
 				EB5A1C402B77A36700AB05A2 /* Utils */,
 				EB5A1C2E2B760CCA00AB05A2 /* Services */,
 				EB6DF1A22B73B55A00EFF0BB /* Controllers */,
