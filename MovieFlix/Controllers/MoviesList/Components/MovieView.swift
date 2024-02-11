@@ -10,6 +10,8 @@ import UIKit
 
 class MovieView: UIView {
     
+    var favouriteTapped: (() -> Void)?
+    
     private lazy var movieImage: UIImageView = {
        let view = UIImageView()
         view.image = UIImage(named: "demoImage")
@@ -42,6 +44,7 @@ class MovieView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
+        label.numberOfLines = 0
         label.font = UIFont.boldSystemFont(ofSize: 24)
         label.text = "Avengers the Light Warrior"
         return label
@@ -70,8 +73,12 @@ class MovieView: UIView {
         view.image = UIImage(named: "Heart_g")
         view.translatesAutoresizingMaskIntoConstraints = false
         view.contentMode = .scaleAspectFit
+        view.isUserInteractionEnabled = true
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(heartTapped)))
         return view
     }()
+    
+    var service: NetworkServiceProtocol? = nil
     
     
     override init(frame: CGRect) {
@@ -95,12 +102,12 @@ class MovieView: UIView {
         movieImage.addSubview(titleLabel)
         movieImage.addSubview(stackView)
         movieImage.addSubview(dateLabel)
-        movieImage.addSubview(heartImage)
+        addSubview(heartImage)
         
         for _ in 1...5 {
             let starImage = UIImageView()
              let configuration = UIImage.SymbolConfiguration(font: UIFont.systemFont(ofSize: 14))
-            starImage.image = UIImage(systemName: "star.fill", withConfiguration: configuration)
+            starImage.image = UIImage(systemName: "star", withConfiguration: configuration)
             starImage.translatesAutoresizingMaskIntoConstraints = false
             starImage.contentMode = .scaleAspectFit
             starImage.tintColor = .yellow
@@ -115,6 +122,7 @@ class MovieView: UIView {
             movieImage.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -24),
             movieImage.heightAnchor.constraint(equalToConstant: 200),
             titleLabel.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -10),
+            titleLabel.trailingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: -16),
             titleLabel.leadingAnchor.constraint(equalTo: movieImage.leadingAnchor, constant: 16),
             stackView.bottomAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: -16),
             stackView.leadingAnchor.constraint(equalTo: movieImage.leadingAnchor, constant: 16),
@@ -122,7 +130,40 @@ class MovieView: UIView {
             dateLabel.bottomAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: -16),
             heartImage.trailingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: -16),
             heartImage.bottomAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: -16),
+            heartImage.heightAnchor.constraint(equalToConstant: 30),
+            heartImage.widthAnchor.constraint(equalToConstant: 30),
 
         ])
     }
+    
+    func config(title: String, rating: CGFloat, releaseDate: String, isFavourite: Bool, imageString: String, service: NetworkServiceProtocol? = nil) {
+        self.titleLabel.text = title
+        self.dateLabel.text = releaseDate
+        self.heartImage.image = isFavourite ? UIImage(named: "Heart") : UIImage(named: "Heart_g")
+        
+        //update star views
+        let stars = Int(rating / 2)
+        for i in 0..<stars {
+            guard let starImage = stackView.arrangedSubviews[i] as? UIImageView else { return }
+            starImage.image = UIImage(systemName: "star.fill", withConfiguration: UIImage.SymbolConfiguration(font: UIFont.systemFont(ofSize: 14)))
+        }
+        
+        guard let service = service else { return }
+        Task {
+            do {
+                guard let url = URL(string: MoviesURL.image(name: imageString).url) else { return }
+                let imageData = try await service.getImage(from: url)
+                self.movieImage.image = UIImage(data: imageData)
+                
+            } catch {
+                print("Error: \(error) fetching image")
+            }
+        }
+    }
+    
+    //handle tap in the heart image
+    @objc func heartTapped() {
+        favouriteTapped?()
+    }
+    
 }
