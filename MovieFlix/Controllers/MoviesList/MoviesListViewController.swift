@@ -43,6 +43,9 @@ class MoviesListViewController: UIViewController {
         
         setUpNavigationBar()
         
+        //set return key in Search Bar
+        self.contentView.searchBar.returnKeyType = .default
+        
         //get data for first page
         getNextPage()
         
@@ -188,13 +191,21 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
 extension MoviesListViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        //When user press return in search button then update table view with related movies
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         Task {
             self.movies = await viewModel.getMovies(query: searchBar.text)
-            searchBar.resignFirstResponder()
             self.contentView.tableView.reloadData()
         }
     }
+    
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.resignFirstResponder()
+        return true
+    }
+    
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         searchBar.enablesReturnKeyAutomatically = false
@@ -202,11 +213,7 @@ extension MoviesListViewController: UISearchBarDelegate {
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        Task {
-            self.movies = await viewModel.getMovies()
-            searchBar.resignFirstResponder()
-            self.contentView.tableView.reloadData()
-        }
+        searchBar.resignFirstResponder()
     }
 }
 
