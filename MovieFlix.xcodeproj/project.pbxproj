@@ -37,13 +37,13 @@
 		EB5A1C242B75216E00AB05A2 /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
 		EB5A1C262B75231300AB05A2 /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
 		EB5A1C292B75869B00AB05A2 /* DetailSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSectionView.swift; sourceTree = "<group>"; };
-		EB5A1C2C2B760C5600AB05A2 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		EB5A1C2C2B760C5600AB05A2 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DataModel.swift; path = ../Models/DataModel.swift; sourceTree = "<group>"; };
 		EB5A1C2F2B760CDC00AB05A2 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		EB5A1C312B76118C00AB05A2 /* movies.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = movies.json; sourceTree = "<group>"; };
-		EB5A1C332B761AF300AB05A2 /* MoviesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesViewModel.swift; sourceTree = "<group>"; };
-		EB5A1C3A2B76731500AB05A2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		EB5A1C332B761AF300AB05A2 /* MoviesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MoviesViewModel.swift; path = ../Models/MoviesViewModel.swift; sourceTree = "<group>"; };
+		EB5A1C3A2B76731500AB05A2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = ../Models/Constants.swift; sourceTree = "<group>"; };
 		EB5A1C3C2B76C6A800AB05A2 /* movieDetail.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = movieDetail.json; sourceTree = "<group>"; };
-		EB5A1C3E2B76E31700AB05A2 /* MovieDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewModel.swift; sourceTree = "<group>"; };
+		EB5A1C3E2B76E31700AB05A2 /* MovieDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MovieDetailsViewModel.swift; path = ../Models/MovieDetailsViewModel.swift; sourceTree = "<group>"; };
 		EB5A1C412B77A37C00AB05A2 /* DateHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHandler.swift; sourceTree = "<group>"; };
 		EB6DF1892B72F1C500EFF0BB /* MovieFlix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieFlix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB6DF18C2B72F1C500EFF0BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,17 +83,6 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		EB5A1C2B2B760B8200AB05A2 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				EB5A1C2C2B760C5600AB05A2 /* DataModel.swift */,
-				EB5A1C332B761AF300AB05A2 /* MoviesViewModel.swift */,
-				EB5A1C3A2B76731500AB05A2 /* Constants.swift */,
-				EB5A1C3E2B76E31700AB05A2 /* MovieDetailsViewModel.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		EB5A1C2E2B760CCA00AB05A2 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -108,6 +97,17 @@
 				EB5A1C412B77A37C00AB05A2 /* DateHandler.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		EB5A1C432B78DD9D00AB05A2 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				EB5A1C332B761AF300AB05A2 /* MoviesViewModel.swift */,
+				EB5A1C3E2B76E31700AB05A2 /* MovieDetailsViewModel.swift */,
+				EB5A1C3A2B76731500AB05A2 /* Constants.swift */,
+				EB5A1C2C2B760C5600AB05A2 /* DataModel.swift */,
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		EB6DF1802B72F1C500EFF0BB = {
@@ -129,9 +129,9 @@
 		EB6DF18B2B72F1C500EFF0BB /* MovieFlix */ = {
 			isa = PBXGroup;
 			children = (
+				EB5A1C432B78DD9D00AB05A2 /* New Group */,
 				EB5A1C402B77A36700AB05A2 /* Utils */,
 				EB5A1C2E2B760CCA00AB05A2 /* Services */,
-				EB5A1C2B2B760B8200AB05A2 /* Models */,
 				EB6DF1A22B73B55A00EFF0BB /* Controllers */,
 				EB6DF18C2B72F1C500EFF0BB /* AppDelegate.swift */,
 				EB6DF18E2B72F1C500EFF0BB /* SceneDelegate.swift */,
