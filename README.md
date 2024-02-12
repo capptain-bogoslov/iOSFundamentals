@@ -6,6 +6,7 @@
 * App architecture is MVVM.
 * Uses Dependency Injection for the NetworkService
 * This app was developed exclusively for training reasons.
+* Use main branch for evaluating
 
 ## Description
 
