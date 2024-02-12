@@ -1,13 +1,13 @@
 # MovieFlix
 
-##General
+## General
 * iOS Native app written in Swift and SwiftUI that display a list of movies, and detail for every movie. 
 * The data are retreived from [https://developers.themoviedb.org](url)
 * App architecture is MVVM.
 * Uses Dependency Injection for the NetworkService
 * This app was developed exclusively for training reasons.
 
-##Description
+## Description
 
 ### Home View
 * Developed in UIKit
@@ -18,7 +18,7 @@
 * Favourite movie. The user can select a movie as favourite by pressing the heart image. The user preferences are maintaining in UserDefaults
 * Details. The user can click the movie he wants and can see more details by navigating to Detail View (Detail View)
 
-###Detail View
+### Detail View
 * Developed in SwiftUI
 * Details.Receives data from separate API
 * Share. The user can share the link for this movie by pressing the share button. If the API does not contain a link the button is hidden
