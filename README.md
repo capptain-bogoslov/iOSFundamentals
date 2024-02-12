@@ -23,5 +23,5 @@
 * Details.Receives data from separate API
 * Share. The user can share the link for this movie by pressing the share button. If the API does not contain a link the button is hidden
 * Favourite movie. The user can select a movie as favourite by pressing the heart image. The user preferences are maintaining in UserDefaults
-* Reviews. The View receives movie review data fro separate API
+* Reviews. The View receives movie review data fro separate API and display only 2 reviews
 * Similar Movies. The View receives similar movie data fro separate API
