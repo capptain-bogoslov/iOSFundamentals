@@ -37,15 +37,11 @@ class MoviesListViewController: UIViewController {
         
         self.contentView.tableView.delegate = self
         self.contentView.tableView.dataSource = self
-        self.contentView.searchBar.delegate = self
         refreshControl.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
         self.contentView.tableView.refreshControl = refreshControl
         
         setUpNavigationBar()
-        
-        //set return key in Search Bar
-        self.contentView.searchBar.returnKeyType = .default
-        
+                
         //get data for first page
         getNextPage()
         

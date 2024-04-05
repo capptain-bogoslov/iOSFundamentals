@@ -11,19 +11,11 @@ class MoviesListView: UIView {
     
     var backToTopPressed: (() -> Void)?
 
-    lazy var searchBar: UISearchBar = {
-        let view = UISearchBar()
+    private var titleLabel: UILabel = {
+       let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.placeholder = "Search"
-        view.searchBarStyle = .minimal
-        return view
-    }()
-    
-    private lazy var lineView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .lightGray
-        view.layer.opacity = 0.5
+        view.text = "Popular Movies"
+        view.font = .systemFont(ofSize: 36, weight: .bold)
         return view
     }()
         
@@ -64,21 +56,16 @@ class MoviesListView: UIView {
     private func setupLayout(){
         self.backgroundColor = .white
         addSubview(tableView)
-        addSubview(searchBar)
-        addSubview(lineView)
+        addSubview(titleLabel)
         addSubview(backToTopButton)
         
         backToTopButton.isHidden = true
         NSLayoutConstraint.activate([
-            searchBar.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            searchBar.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            searchBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
-            lineView.heightAnchor.constraint(equalToConstant: 1),
-            lineView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            lineView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            lineView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 16),
+            titleLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
             tableView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 0),
-            tableView.topAnchor.constraint(equalTo: lineView.topAnchor, constant: 0),
+            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
             tableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
             backToTopButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -50),
