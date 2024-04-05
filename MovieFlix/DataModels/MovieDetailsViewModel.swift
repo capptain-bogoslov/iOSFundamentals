@@ -15,8 +15,6 @@ class MovieDetailsViewModel: ObservableObject {
     
     var service: NetworkServiceProtocol
     @Published var movieDetail: MovieDetailResponse? = nil
-    @Published var imageData: Data? = nil
-    @Published var similarMovies: [UIImage] = []
     //concatenate genre names
     var genresConcatenated: String {
         guard let movieDetail = movieDetail else { return ""}
@@ -49,7 +47,6 @@ class MovieDetailsViewModel: ObservableObject {
         self.service = service
         Task {
             self.movieDetail = await getMovieDetail(id: id)
-            self.imageData = await getMovieImage(path: movieDetail?.imagePath ?? "")
         }
     }
     
@@ -60,17 +57,6 @@ class MovieDetailsViewModel: ObservableObject {
         return movieDetail
     }
     
-    //get movie Image
-    func getMovieImage(path: String) async -> Data? {
-        guard let url = URL(string: MoviesURL.image(name: path).url) else { return nil }
-        do {
-            let data = try await service.getImage(from: url)
-            return data
-        } catch {
-            print("Image data Error")
-            return nil
-        }
-    }
 }
     
     

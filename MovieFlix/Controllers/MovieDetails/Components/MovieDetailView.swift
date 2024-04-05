@@ -11,7 +11,6 @@ struct MovieDetailView: View {
     
     @EnvironmentObject var model: MovieDetailsViewModel
     @State var movie: MovieDetailResponse?
-    @State var imageData: Data?
     var rating: Int {
         model.rating
     }
@@ -22,30 +21,28 @@ struct MovieDetailView: View {
             ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 
-                //Display Movie image received asynchronously or a ProgressView. AsyncImage not used because needs iOS >= 15
+                //Display Movie image received asynchronously or a ProgressView.
                 ZStack {
-                    if let data = self.imageData, let uiImage = UIImage(data: data) {
-                        Image(uiImage: uiImage)
-                            .resizable()
+                    if let path = self.movie?.imagePath, let url = URL(string: MoviesURL.image(name: path).url) {
+
+
+                        AsyncImage(url: url) { image in
+                            image.resizable()
                             .scaledToFill()
                             .clipped()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                        } placeholder: {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .orange))
+                                .scaleEffect(2)
+
+                        }
+                        .frame(width: UIScreen.main.bounds.width, height: 300)
+
                     }else {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: .orange))
                             .scaleEffect(2)
                             .frame(width: UIScreen.main.bounds.width, height: 300)
-                    }
-                    
-                    //show share button only if Movie contains a link for homepage
-                    if let movie = movie, !movie.homepage.isEmpty {
-                        Button(action: {
-                            openShareSheet(url: movie.homepage)
-                        }, label: {
-                            Image("share")
-                        })
-                        .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: .infinity, alignment: .bottomTrailing)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 20))
                     }
                     
                 }
@@ -102,17 +99,7 @@ struct MovieDetailView: View {
         .onReceive(model.$movieDetail) { newData in
             self.movie = newData
         }
-        .onReceive(model.$imageData) { imageData in
-            self.imageData = imageData
-        }
     }
     
-    func openShareSheet(url: String) {
-        
-        guard let url = URL(string: url) else { return }
-        let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-        
-        UIApplication.shared.windows.first?.rootViewController?.present(activityViewController, animated: true)
-    }
 }
 
