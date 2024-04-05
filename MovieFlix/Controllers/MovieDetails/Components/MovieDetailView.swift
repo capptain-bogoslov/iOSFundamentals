@@ -10,11 +10,8 @@ import SwiftUI
 struct MovieDetailView: View {
     
     @EnvironmentObject var model: MovieDetailsViewModel
-    @State var isFavourite: Bool
     @State var movie: MovieDetailResponse?
     @State var imageData: Data?
-    @State var reviewsData: [(String, String)] = []
-    @State var similarMovies: [UIImage] = []
     var rating: Int {
         model.rating
     }
@@ -69,14 +66,6 @@ struct MovieDetailView: View {
                             
                         }
                         Spacer()
-                        Button(action: {
-                            //add image to favourites and update the View
-                            self.isFavourite.toggle()
-                            model.addRemoveImageToFavourites()
-                        }, label: {
-                            Image(isFavourite ? "Heart" : "Heart_g")
-                            
-                        })
                     }
                     
                     //Date and Rating
@@ -103,15 +92,6 @@ struct MovieDetailView: View {
                     
                     DetailSectionView(type: .cast, description: model.castMembers)
                     
-                    if !reviewsData.isEmpty {
-                        DetailSectionView(type: .reviews, description: "", reviews: model.reviewsData)
-                            .frame(height: 200)
-                    }
-                    
-                    if !similarMovies.isEmpty {
-                        DetailSectionView(type: .similarMovies, description: "", similarMovies: self.similarMovies)
-                            .padding(.bottom, 20)
-                    }
                     Spacer()
                 }
                 .padding(.horizontal, 15)
@@ -124,12 +104,6 @@ struct MovieDetailView: View {
         }
         .onReceive(model.$imageData) { imageData in
             self.imageData = imageData
-        }
-        .onReceive(model.$reviewsData) { reviewData in
-            self.reviewsData = reviewData
-        }
-        .onReceive(model.$similarMovies) { similarImages in
-            self.similarMovies = similarImages
         }
     }
     

@@ -16,7 +16,6 @@ class MovieDetailsViewModel: ObservableObject {
     var service: NetworkServiceProtocol
     @Published var movieDetail: MovieDetailResponse? = nil
     @Published var imageData: Data? = nil
-    @Published var reviewsData: [(String, String)] = []
     @Published var similarMovies: [UIImage] = []
     //concatenate genre names
     var genresConcatenated: String {
@@ -51,8 +50,6 @@ class MovieDetailsViewModel: ObservableObject {
         Task {
             self.movieDetail = await getMovieDetail(id: id)
             self.imageData = await getMovieImage(path: movieDetail?.imagePath ?? "")
-            self.reviewsData = await getMovieReviews(id: id)
-            await getSimilarMovies(id: id)
         }
     }
     
@@ -74,55 +71,6 @@ class MovieDetailsViewModel: ObservableObject {
             return nil
         }
     }
-    
-    //add Image to favourites
-    func addRemoveImageToFavourites() {
-        guard let movieDetails = movieDetail else { return }
-        var array = UserDefaults.standard.array(forKey: "myFavouriteMovies") as? [Int] ?? []
-        if array.contains(movieDetails.id) {
-            array.removeAll { $0 == movieDetails.id }
-        } else {
-            array.append(movieDetails.id)
-        }
-        UserDefaults.standard.set(array, forKey: "myFavouriteMovies")
-    }
-    
-    //retrieve movie reviews and return the firs two values
-    func getMovieReviews(id: Int) async -> [(String, String)]  {
-        let movieReviews = await service.getMovieReviews(id: id)
-        let firstTwoReview = movieReviews?.results.prefix(2)
-        var reviewsToDisplay: [(String, String)] = []
-        firstTwoReview?.forEach({ review in
-            let r = (review.author, review.content)
-            reviewsToDisplay.append(r)
-        })
-        return reviewsToDisplay
-    }
-    
-    //retrieve similar movies and make a collection of movie images
-    func getSimilarMovies(id: Int) async {
-        var similarMovieImages: [UIImage] = []
-        let group = DispatchGroup()
-        
-        let similarMovies = await service.getSimilarMoview(id: id)
-        let moviesImagePath = similarMovies?.compactMap { $0.poster }
-  
-        moviesImagePath?.forEach({ path in
-            group.enter()
-            Task {
-                let imageData = await self.getMovieImage(path: path)
-                if let data = imageData, let image = UIImage(data: data) {
-                    similarMovieImages.append(image)
-                }
-                group.leave()
-            }
-        })
-        //use group to wait for all posters to finish to download
-        group.notify(queue: .main) {
-            self.similarMovies = similarMovieImages
-        }
-    }
-    
 }
     
     

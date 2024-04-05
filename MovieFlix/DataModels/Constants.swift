@@ -26,7 +26,7 @@ enum MoviesURL {
     var url: String {
         switch self {
         case .moviesList(page: let page):
-            return "https://api.themoviedb.org/3/movie/popular?page=\(page)&api_key=\(Constants.APIkey.apiKeyAuth)"
+            return "https://api.themoviedb.org/3/movie/top_rated?page=\(page)&api_key=\(Constants.APIkey.apiKeyAuth)"
         case .movieDetails(id: let id):
             return "https://api.themoviedb.org/3/movie/\(id)?append_to_response=credits&api_key=\(Constants.APIkey.apiKeyAuth)"
         case .image(name: let name):

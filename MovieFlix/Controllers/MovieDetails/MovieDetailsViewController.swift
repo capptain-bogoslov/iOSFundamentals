@@ -21,8 +21,7 @@ class MovieDetailsViewController: UIViewController {
         setupNavigationBar()
         
         let vc = UIHostingController(rootView:
-                                        MovieDetailView(
-                                            isFavourite: isMovieFavourite)
+                                        MovieDetailView()
                                             .environmentObject(MovieDetailsViewModel(id: movieId, service: NetworkAPIService()))
                                             )
         guard let movieDetailView = vc.view else { return }
