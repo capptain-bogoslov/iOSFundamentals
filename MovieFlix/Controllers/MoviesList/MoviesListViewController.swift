@@ -33,7 +33,7 @@ class MoviesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "MovieFlix"
+        self.title = "MyMovies"
         
         self.contentView.tableView.delegate = self
         self.contentView.tableView.dataSource = self
@@ -130,11 +130,7 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             let movie = movies[indexPath.row]
-            cell.view.config(title: movie.title ?? "", rating: movie.rating ?? 0.0, releaseDate: DateHandler.shared.getDate(input: movie.releaseDate) ?? "", isFavourite: viewModel.isImageFavourite(with: movie.id), imageString: movie.image ?? "", service: self.viewModel.service)
-            cell.view.favouriteTapped = { [weak self] in
-                self?.viewModel.addRemoveImageToFavourites(id: movie.id)
-                self?.contentView.tableView.reloadRows(at: [indexPath], with: .automatic)
-            }
+            cell.view.config(title: movie.title ?? "", imageString: movie.image ?? "", service: self.viewModel.service)
             return cell
         default:
             return UITableViewCell()
@@ -151,7 +147,6 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
         let movieDetails = MovieDetailsViewController()
         //pass values to next vc
         movieDetails.movieId = movies[indexPath.row].id
-        movieDetails.isMovieFavourite = viewModel.isImageFavourite(with: movies[indexPath.row].id)
         movieDetails.modalPresentationStyle = .fullScreen
         navigationController?.pushViewController(movieDetails, animated: true)
     }
@@ -181,35 +176,6 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
         if let skeletonCell = cell.contentView as? SkeletonCell {
             skeletonCell.stopAnimations()
         }
-    }
-}
-
-extension MoviesListViewController: UISearchBarDelegate {
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        Task {
-            self.movies = await viewModel.getMovies(query: searchBar.text)
-            self.contentView.tableView.reloadData()
-        }
-    }
-    
-    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
-        searchBar.resignFirstResponder()
-        return true
-    }
-    
-    
-    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        searchBar.enablesReturnKeyAutomatically = false
-        return true
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
     }
 }
 

@@ -64,13 +64,4 @@ class MoviesViewModel {
 
     }
     
-    //check if Image is favourite
-    func isImageFavourite(with id: Int) -> Bool {
-        if let array = UserDefaults.standard.array(forKey: "myFavouriteMovies") as? [Int] {
-            return array.contains(id)
-        } else {
-            return false
-        }
-    }
-    
 }
