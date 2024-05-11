@@ -14,7 +14,7 @@ class SkeletonCell: UIView {
     private lazy var imagePlaceholder: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(named: "LightGray")
+        view.backgroundColor = UIColor(named: "CustomLightGray")
         view.layer.opacity = 0.8
         return view
     }()

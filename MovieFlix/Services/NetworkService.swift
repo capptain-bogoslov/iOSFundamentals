@@ -12,8 +12,6 @@ protocol NetworkServiceProtocol {
     func getMovies(page: Int, query: String?) async -> MoviesResponse?
     func getImage(from url: URL) async throws -> Data
     func getMovieDetail(id: Int) async -> MovieDetailResponse?
-    func getMovieReviews(id: Int) async -> MovieReviewsResponse?
-    func getSimilarMoview(id: Int) async -> [Movie]?
 }
 
 //create mock service
@@ -53,14 +51,6 @@ class MockNetworkService: NetworkServiceProtocol {
         let request = URLRequest(url: url)
         let (data, _) = try await URLSession.shared.data(for: request)
         return data
-    }
-    
-    func getMovieReviews(id: Int) async -> MovieReviewsResponse? {
-        return nil
-    }
-    
-    func getSimilarMoview(id: Int) async -> [Movie]? {
-        return nil
     }
 }
 
@@ -139,45 +129,4 @@ class NetworkAPIService: NetworkServiceProtocol {
             return nil
         } 
     }
-    
-    //download Reviews for a Movie
-    func getMovieReviews(id: Int) async -> MovieReviewsResponse? {
-        
-        guard let url = URL(string: MoviesURL.reviews(id: id).url) else { return nil}
-        let session = URLSession.shared
-        let request = URLRequest(url: url)
-        do {
-            let (data, response) = try await session.data(for: request)
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                print("Invalid network response for movie reviews")
-                return nil
-            }
-            let reviewsData = try JSONDecoder().decode(MovieReviewsResponse.self, from: data)
-            return reviewsData
-        } catch {
-            print("Invalid network response for movie reviews")
-            return nil
-        }
-    }
-    
-    //download similar movies for a Movie
-    func getSimilarMoview(id: Int) async -> [Movie]? {
-        guard let url = URL(string: MoviesURL.similar(id: id).url) else { return nil }
-        let session = URLSession.shared
-        let request = URLRequest(url: url)
-        do {
-            let (data, response) = try await session.data(for: request)
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                print("Invalid network response for similar movies")
-                return nil
-            }
-            let similarMoviesData = try JSONDecoder().decode(MoviesResponse.self, from: data)
-            return similarMoviesData.results
-        } catch {
-            print("Invalid network response for similar movies")
-            return nil
-        }
-    }
-    
-    
 }

@@ -23,7 +23,6 @@ class MoviesListView: UIView {
         let tableView = UITableView(frame: UIScreen.main.bounds)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(GeneriTableViewCell<MovieView>.self, forCellReuseIdentifier: "MovieViewCell")
-        tableView.register(GeneriTableViewCell<SkeletonCell>.self, forCellReuseIdentifier: "SkeletonCell")
         tableView.separatorStyle = .none
         tableView.backgroundView = UIView(frame: tableView.bounds)
         tableView.backgroundView?.backgroundColor = .orange
@@ -37,7 +36,7 @@ class MoviesListView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "arrow.up"), for: .normal)
-        button.backgroundColor = UIColor(named: "LightGray")
+        button.backgroundColor = UIColor(named: "CustomLightGray")
         button.tintColor = .black
         button.layer.cornerRadius = 3
         button.addTarget(self, action: #selector(backToTop), for: .touchUpInside)
