@@ -61,6 +61,7 @@ struct MovieDetailView: View {
                                 .font(.system(size: 12, weight: .bold))
                                 .foregroundColor(Color.gray)
                             
+                            
                         }
                         Spacer()
                     }
